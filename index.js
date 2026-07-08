@@ -40,6 +40,15 @@ async function checkChannelExists(name) {
 
 // express webhook
 app.set('trust proxy',true)
+app.use((req,res,next) => {
+	res.header('Access-Control-Allow-Origin','*');
+	res.header('Access-Control-Allow-Methods','GET, OPTIONS');
+	res.header('Access-Control-Allow-Headers','Content-Type, x-origin-client, X-Origin-Client');
+	if (req.method === 'OPTIONS') {
+		return res.sendStatus(204);
+	}
+	next();
+});
 const port = 1095;
 app.listen(port,() => {
 	console.log(`Server listening on port ${port}`);
